@@ -334,9 +334,10 @@ defmodule Liquid.Filters do
       string |> to_string |> append(to_string(addition))
     end
 
-    def strip(<<string::binary>>) do
+    def strip(string) when is_binary(string) do
       string |> String.trim()
     end
+    def strip(string), do: string
 
     def lstrip(<<string::binary>>) do
       string |> String.trim_leading()
@@ -350,9 +351,10 @@ defmodule Liquid.Filters do
       string |> String.replace(~r/\r?\n/, "")
     end
 
-    def newline_to_br(<<string::binary>>) do
+    def newline_to_br(string) when is_binary(string) do
       string |> String.replace("\n", "<br />\n")
     end
+    def newline_to_br(string), do: string
 
     def split(<<string::binary>>, <<separator::binary>>) do
       String.split(string, separator)
@@ -395,6 +397,7 @@ defmodule Liquid.Filters do
     def escape(input) when is_binary(input) do
       input |> HTML.html_escape()
     end
+    def escape(input), do: input
 
     defdelegate h(input), to: __MODULE__, as: :escape
 
